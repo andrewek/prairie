@@ -32,6 +32,10 @@ https://github.com/andrewek/prairie
 ![](bison.jpg)
 ## Some Horror Stories
 
+^ ActiveRecord callback nightmares
+^ Hundreds of beautiful, perfectly bespoke little snowflakes
+^ Improperly drawn boundaries between microservices
+
 ---
 
 ![](bison.jpg)
