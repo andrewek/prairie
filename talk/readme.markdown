@@ -14,13 +14,6 @@ slide-transition: true
 
 ---
 
-## About Me
-
-^ Keep it brief
-^ Principal engineer @ Launch Scout
-
----
-
 [.background-color: #FFF]
 [.text: #000, alignment(left)]
 
@@ -36,7 +29,21 @@ https://github.com/andrewek/prairie
 
 ---
 
+![](bison.jpg)
 ## Some Horror Stories
+
+---
+
+![](bison.jpg)
+## Motivations
+
+---
+
+## Motivations
+
++ Improve speed to market
++ Reduce cognitive load
++ Maintain fast-enough performance
 
 ---
 
@@ -69,7 +76,7 @@ Our data might live in:
 
 ## The Data Access Layer
 
-We might see these problems:
+With a "conventional" approach we might see these problems:
 
 + Variations in data representation
 + Failed book-keeping after business events
@@ -110,74 +117,14 @@ We might see these problems:
 
 + Pipeline-able operations
 + Takes a query and returns a query
-
----
-
-## Composable Queries
-
-```elixir
-defmodule Prairie.Bison.Queries do
-  # ....
-
-  def with_status(query \\ Bison, status) do
-    from bison in query,
-      where: bison.status == ^status
-  end
-end
-```
-
----
-
-## Composable Queries
-
-```elixir
-defp with_prairie(query) do
-  if has_named_binding?(query, :prairie) do
-    query
-  else
-    from q in query
-    |> join: prairie in assoc(q, :prairie), as: :prairie
-  end
-end
-```
-
-^ makes use of `has_named_binding?` on joined bindings
-
----
-
-## Composable Queries
-
-```elixir
-def in_active_prairie(query \\ Bison, id) do
-  query
-  |> with_prairie()
-  |> where(
-       [_, prairie: prairie],
-       prairie.active == true and prairie.id == ^id
-     )
-end
-```
-
----
-
-## Composable Queries
-
-```elixir
-def all_in_active_prairie(status, prairie_id) do
-  Bison
-  |> with_status(status)
-  |> in_active_prairie(prairie_id)
-  |> BisonRepo.all()
-end
-```
++ Reads like Elixir, rather than like SQL
 
 ---
 
 ## Composable Queries
 
 + Describes meaning, rather than implementation
-+ Reads like Elixir, rather than like SQL
-+ Standardizes access
++ Standardizes "shape" of data
 + Reduces cognitive overhead
 
 ---
@@ -205,79 +152,6 @@ end
 
 ## The `GenericRepo`
 
-```elixir
-defmodule Prairie.Bison.Repo do
-  use GenericRepo,
-    schema: Prairie.Bison.Bison,
-    default_preloads: [check_up_charts: []],
-    base_repo: Prairie.Repo
-end
-```
-
----
-
-```elixir
-defmodule GenericRepo do
-  defmacro __using__(opts \\ []) do
-    schema = Keyword.pop!(opts, :schema)
-    default_preloads = Keyword.get(opts, :default_preloads, [])
-    base_repo = Keyword.pop!(opts, :base_repo)
-
-    # ...
-
-  end
-end
-```
-
----
-
-```elixir
-  # inside the defmacro block
-
-  quote do
-    alias unquote(schema)
-    alias unquote(base_repo), as: BaseRepo
-
-    import Ecto.Query
-
-    @schema unquote(schema)
-    @default_preloads unquote(default_preloads)
-
-    # ...
-  end
-```
-
----
-
-```elixir
-  # Inside the quote block
-
-  def one(queryable \\ @schema) do
-    BaseRepo.all(
-      from element in queryable,
-      preload: @default_preloads
-    )
-  end
-```
-
----
-
-```elixir
-  # Inside the quote block
-
-  def get(queryable \\ @schema, id) do
-    record = one(
-      from element in queryable,
-      where: element.id == ^id, limit: 1
-    )
-
-    if record do
-      {:ok, record}
-    else
-      {:error, :not_found, @schema}
-    end
-  end
-```
 ---
 
 ![](bison.jpg)
@@ -377,6 +251,7 @@ defmodule Prairie.VeterinaryCare.BisonRepo do
     base_repo: Prairie.Repo,
     default_preloads: [
       check_up_charts: [],
+      records: [],
       veterinarian: [],
       vaccinations: []
     ]
@@ -387,14 +262,16 @@ end
 
 ## Some Variants
 
+Consider telemetry and other monitoring. At some point you may outgrow this approach, and it's good to know when.
+
 ---
 
 ![](bison.jpg)
-## Why Might We Do This?
+## Return to Motivating Factors
 
 ---
 
-## Why Might We Do This?
+## Return to Motivating Factors
 
 + Reduce bugs caused by subtle variants
 + Reduce cognitive overhead

@@ -1,7 +1,7 @@
 # Prairie
 
 This application is a little test bed for my ElixirConf EU 2022 talk, "Get your
-CRUD Together!"
+CRUD Together!" - [see notes here](/talk/readme.markdown).
 
 In it, we have some live-ish data to play with.
 
