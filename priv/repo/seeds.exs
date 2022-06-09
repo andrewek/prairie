@@ -12,7 +12,13 @@
 
 alias Prairie.Repo
 alias Prairie.LandManagement.Prairie, as: LPrairie
+alias Prairie.Bison.Bison
 
 prairie_1 = Repo.insert!(%LPrairie{name: "Pokorny Prairie"})
 prairie_2 = Repo.insert!(%LPrairie{name: "Gjerloff Prairie"})
-prairie_3 = Repo.insert!(%LPrairie{name: "Lincoln Creek Prairie"})
+
+bison_1 = Repo.insert!(%Bison{name: "Belinda", age: 1, prairie_id: prairie_1.id})
+bison_2 = Repo.insert!(%Bison{name: "Belleriphon", age: 2, prairie_id: prairie_2.id})
+bison_3 = Repo.insert!(%Bison{name: "Balthazar", age: 3, prairie_id: prairie_1.id})
+bison_4 = Repo.insert!(%Bison{name: "Brianna", age: 3, prairie_id: prairie_2.id})
+bison_5 = Repo.insert!(%Bison{name: "Bryce", age: 5, prairie_id: prairie_1.id})

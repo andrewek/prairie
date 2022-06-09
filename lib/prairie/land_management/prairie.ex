@@ -7,19 +7,19 @@ defmodule Prairie.LandManagement.Prairie do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias __MODULE__
-
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
 
   schema "prairies" do
     field :name, :string
 
+    has_many :bison, Prairie.Bison.Bison
+
     timestamps()
   end
 
   @doc false
-  def changeset(prairie \\ %Prairie{}, attrs) do
+  def changeset(prairie \\ %Prairie.LandManagement.Prairie{}, attrs) do
     prairie
     |> cast(attrs, [:name])
     |> validate_required(:name)
