@@ -262,7 +262,13 @@ end
 
 ## Some Variants
 
-Consider telemetry and other monitoring. At some point you may outgrow this approach, and it's good to know when.
+Consider telemetry and other monitoring. At some point you may outgrow this approach, and it's good to know when this happens.
+
+---
+
+## Some Variants
+
+We can use GenServers, ETS tables, Redis, etc., to cache data.
 
 ---
 
