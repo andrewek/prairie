@@ -14,6 +14,7 @@ defmodule Prairie.LandManagement.Prairie do
     field :name, :string
 
     has_many :bison, Prairie.Bison.Bison
+    has_many :veterinary_staff_members, Prairie.Veterinary.StaffMember
 
     timestamps()
   end
