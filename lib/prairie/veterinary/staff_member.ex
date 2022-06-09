@@ -7,6 +7,7 @@ defmodule Prairie.Veterinary.StaffMember do
   schema "veterinary_staff_members" do
     field :name, :string
     belongs_to :prairie, Prairie.LandManagement.Prairie
+    has_many :records, Prairie.Veterinary.Record, foreign_key: :veterinary_staff_member_id
 
     timestamps()
   end

@@ -7,8 +7,9 @@ defmodule Prairie.Bison.Bison do
   schema "bison" do
     field :age, :integer
     field :name, :string
-    belongs_to :prairie, Prairie.LandManagement.Prairie
 
+    has_many :records, Prairie.Veterinary.Record
+    belongs_to :prairie, Prairie.LandManagement.Prairie
 
     timestamps()
   end
