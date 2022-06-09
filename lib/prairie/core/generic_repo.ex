@@ -53,8 +53,8 @@ defmodule GenericRepo do
       end
 
       @doc """
-      Fetch preloads - useful at runtime. Also useful if you want to take the
-      list of preloads and then modify them in some way
+      Fetch the list of preloads - useful at runtime. Also useful if you want to
+      take the list of preloads and then modify them in some way
       """
       def preloads() do
         @default_preloads
