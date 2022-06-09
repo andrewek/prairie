@@ -15,7 +15,7 @@ defmodule Prairie.Bison.Queries do
       where: bison.age >= ^age
   end
 
-  def age_at_most(queryable \\ BIson, age) do
+  def age_at_most(queryable \\ Bison, age) do
     from bison in queryable,
       where: bison.age <= ^age
   end

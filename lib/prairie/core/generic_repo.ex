@@ -122,7 +122,7 @@ defmodule GenericRepo do
           if record do
             {:ok, record}
           else
-            {:error, :not_found}
+            {:error, @schema, :not_found}
           end
         end
       end
