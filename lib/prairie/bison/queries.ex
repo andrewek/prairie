@@ -10,23 +10,23 @@ defmodule Prairie.Bison.Queries do
     from bison in Bison
   end
 
-  def age_at_least(queryable \\ Bison, age) do
+  def age_at_least(queryable, age) do
     from bison in queryable,
       where: bison.age >= ^age
   end
 
-  def age_at_most(queryable \\ Bison, age) do
+  def age_at_most(queryable, age) do
     from bison in queryable,
       where: bison.age <= ^age
   end
 
-  def in_state(queryable \\ Bison, state_code) do
+  def in_state(queryable, state_code) do
     queryable
     |> with_prairie()
     |> where([_, prairie: prairie], prairie.state_code == ^state_code)
   end
 
-  def with_prairie(queryable \\ Bison) do
+  def with_prairie(queryable) do
     if has_named_binding?(queryable, :prairie) do
       queryable
     else
