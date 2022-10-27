@@ -25,9 +25,22 @@ bison_3 = Repo.insert!(%Bison{name: "Balthazar", age: 3, prairie_id: prairie_1.i
 bison_4 = Repo.insert!(%Bison{name: "Brianna", age: 3, prairie_id: prairie_2.id})
 bison_5 = Repo.insert!(%Bison{name: "Bryce", age: 5, prairie_id: prairie_1.id})
 
-veterinary_staff_1 = Repo.insert!(%VeterinaryStaffMember{name: "Valentina Vega", prairie_id: prairie_1.id})
-veterinary_staff_2 = Repo.insert!(%VeterinaryStaffMember{name: "Victor Vaughn", prairie_id: prairie_2.id})
+veterinary_staff_1 =
+  Repo.insert!(%VeterinaryStaffMember{name: "Valentina Vega", prairie_id: prairie_1.id})
 
-record_1 = Repo.insert!(%VeterinaryRecord{notes: "Stubbed hoof. Gave her an ice pack and a hug. She seems okay now.", bison_id: bison_1.id, veterinary_staff_member_id: veterinary_staff_1.id})
+veterinary_staff_2 =
+  Repo.insert!(%VeterinaryStaffMember{name: "Victor Vaughn", prairie_id: prairie_2.id})
 
-record_1 = Repo.insert!(%VeterinaryRecord{notes: "Accidentally ate a bee. He'll be okay.", bison_id: bison_2.id, veterinary_staff_member_id: veterinary_staff_2.id})
+record_1 =
+  Repo.insert!(%VeterinaryRecord{
+    notes: "Stubbed hoof. Gave her an ice pack and a hug. She seems okay now.",
+    bison_id: bison_1.id,
+    veterinary_staff_member_id: veterinary_staff_1.id
+  })
+
+record_1 =
+  Repo.insert!(%VeterinaryRecord{
+    notes: "Accidentally ate a bee. He'll be okay.",
+    bison_id: bison_2.id,
+    veterinary_staff_member_id: veterinary_staff_2.id
+  })

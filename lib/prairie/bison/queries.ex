@@ -7,7 +7,7 @@ defmodule Prairie.Bison.Queries do
   alias Prairie.Bison.Bison
 
   def default_query() do
-    from bison in Bison
+    from(bison in Bison)
   end
 
   def age_at_least(queryable, age) do
@@ -30,8 +30,7 @@ defmodule Prairie.Bison.Queries do
     if has_named_binding?(queryable, :prairie) do
       queryable
     else
-      from bison in queryable,
-        join: prairie in assoc(bison, :prairie), as: :prairie
+      from bison in queryable, join: prairie in assoc(bison, :prairie), as: :prairie
     end
   end
 end
