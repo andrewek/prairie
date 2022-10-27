@@ -8,7 +8,6 @@ defmodule Prairie.Bison.Bison do
     field :age, :integer
     field :name, :string
 
-    has_many :records, Prairie.Veterinary.Record
     belongs_to :prairie, Prairie.LandManagement.Prairie
 
     timestamps()
