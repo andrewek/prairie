@@ -15,4 +15,19 @@ defmodule Prairie.Factory do
       prairie: build(:prairie)
     }
   end
+
+  def staff_member_factory do
+    %Prairie.Veterinary.StaffMember{
+      prairie: build(:prairie),
+      name: sequence(:name, &"staff-#{&1}")
+    }
+  end
+
+  def appointment_factory do
+    %Prairie.Veterinary.Appointment{
+      bison: build(:bison),
+      staff_member: build(:staff_member),
+      appointment_at: Timex.now()
+    }
+  end
 end
