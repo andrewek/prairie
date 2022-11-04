@@ -12,9 +12,12 @@ defmodule Prairie.Veterinary.BisonContext do
   alias Prairie.Veterinary.BisonQueries
 
   @doc """
-  A bison is due to schedule an appointment if they have no future appointment scheduled.
+  A bison is due to schedule an appointment if they have no future appointment
+  scheduled.
 
-  Bison are sorted by their most recent appointment
+  Bison are sorted by their most recent appointment, so those without a most
+  recent appointment and/or with very distant most-recent appointment will be
+  listed before bison with a very recent appointment.
   """
   def needs_to_schedule() do
     right_now = now()
@@ -48,7 +51,6 @@ defmodule Prairie.Veterinary.BisonContext do
         select_merge: %{last_appointment_at: last_appointment.appointment_at},
         select_merge: %{next_appointment_at: next_appointment.appointment_at}
     )
-
   end
 
   @doc """

@@ -48,23 +48,22 @@ slide-transition: true
 
 ![](bison_2.jpeg)
 
-## End Goal
+## Preview
 
 ---
 
-# End Goal
+# Preview
 
 ```elixir
 BisonQueries.base_query()
-|> BisonQueries.in_state("NE")
-|> BisonQueries.due_for_appointment()
-|> BisonQueries.no_next_appointment_scheduled()
+|> BisonQueries.by_state_code("NE")
+|> BisonQueries.by_due_for_appointment()
+|> BisonQueries.as_aggregate()
 |> BisonRepo.all()
 ```
 
 ---
 
-# TIME TO WRITE
 ![](bison_2.jpeg)
 
 ---
@@ -77,19 +76,19 @@ BisonQueries.base_query()
 
 # Touchpoints
 
-`Ecto.Query` gives us almost everything we need
+The main goal is to add readability and reduce cognitive load.
 
 ---
 
 # Touchpoints
 
-Use to establish a single level of abstraction and "hide" SQL.
+`Ecto.Query` gives us almost everything we need.
 
 ---
 
 # Touchpoints
 
-Named bindings carry `joins`, `has_named_binding?` helps reduce duplication.
+Named bindings carry `joins`; `has_named_binding?` helps reduce duplication.
 
 ---
 
@@ -99,13 +98,8 @@ Using a default query lets you get away with a lot.
 
 ---
 
-# Touchpoints
-
-Specific application of pipelines through tokens to get a reducer
-
----
-
 ![](bison.jpg)
+
 # _Fin_
 
 ---

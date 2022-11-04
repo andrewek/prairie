@@ -54,17 +54,16 @@ defmodule Prairie.Veterinary.BisonContextTest do
   end
 
   describe "overdue_for_appointment/0" do
-    test "gets bison with long-ago appointment", %{bison: bison, staff_member: staff_member} do
+    test "gets bison with long-ago appointment", %{bison: %Bison{id: bison_id} = bison} do
       insert(
         :appointment,
         bison: bison,
-        staff_member: staff_member,
         appointment_at: time_from_now(months: -7)
       )
 
       result = BisonContext.overdue_for_appointment()
 
-      assert id_in?(result, bison.id)
+      assert [%Bison{id: ^bison_id}] = result
     end
 
     test "ignores bison with recent appointments", %{bison: bison, staff_member: staff_member} do
@@ -127,7 +126,11 @@ defmodule Prairie.Veterinary.BisonContextTest do
       %Bison{id: other_bison_id} = insert(:bison, prairie: other_prairie)
 
       assert id_in?(BisonContext.overdue_for_appointment(prairie.state_code), bison_id)
-      assert id_in?(BisonContext.overdue_for_appointment(other_prairie.state_code), other_bison_id)
+
+      assert id_in?(
+               BisonContext.overdue_for_appointment(other_prairie.state_code),
+               other_bison_id
+             )
     end
   end
 
