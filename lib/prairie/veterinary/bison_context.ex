@@ -8,7 +8,6 @@ defmodule Prairie.Veterinary.BisonContext do
   alias Prairie.Bison.Bison
   alias Prairie.Bison.Repo, as: BisonRepo
   alias Prairie.Veterinary.Appointment
-  alias Prairie.Veterinary.StaffMember
   alias Prairie.LandManagement.Prairie
 
   @doc """
