@@ -22,6 +22,10 @@ slide-transition: true
 
 ---
 
+![fit](family_2.jpg)
+
+---
+
 ![](bison_3.jpeg)
 
 ---
