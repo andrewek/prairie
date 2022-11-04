@@ -20,7 +20,7 @@ defmodule Prairie.Bison.Context do
   def by_prairie(%LMPrairie{id: prairie_id}) do
     BisonRepo.all(
       from bison in Bison,
-      where: bison.prairie_id == ^prairie_id
+        where: bison.prairie_id == ^prairie_id
     )
   end
 
@@ -29,23 +29,23 @@ defmodule Prairie.Bison.Context do
 
     BisonRepo.all(
       from bison in Bison,
-      where: ilike(bison.name, ^name_str)
+        where: ilike(bison.name, ^name_str)
     )
   end
 
   def by_age_between(start_age, end_age) do
     BisonRepo.all(
       from bison in Bison,
-      where: bison.age >= ^start_age,
-      where: bison.age <= ^end_age
+        where: bison.age >= ^start_age,
+        where: bison.age <= ^end_age
     )
   end
 
   def by_state_code(state_code) do
     BisonRepo.all(
       from bison in Bison,
-      join: prairie in assoc(bison, :prairie),
-      where: prairie.state_code == ^state_code
+        join: prairie in assoc(bison, :prairie),
+        where: prairie.state_code == ^state_code
     )
   end
 end

@@ -23,19 +23,20 @@ defmodule Prairie.Veterinary.BisonContext do
     start_range = six_months_ago()
     end_range = now()
 
-    appointment_subq = from(
-      appointment in Appointment,
-      group_by: [appointment.bison_id, appointment.id],
-      where: appointment.appointment_at >= ^start_range,
-      where: appointment.appointment_at <= ^end_range,
-      order_by: [desc: appointment.appointment_at]
-    )
+    appointment_subq =
+      from(
+        appointment in Appointment,
+        group_by: [appointment.bison_id, appointment.id],
+        where: appointment.appointment_at >= ^start_range,
+        where: appointment.appointment_at <= ^end_range,
+        order_by: [desc: appointment.appointment_at]
+      )
 
     BisonRepo.all(
       from b in Bison,
-      left_join: appointment in subquery(appointment_subq),
-      on: appointment.bison_id == b.id,
-      where: is_nil(appointment)
+        left_join: appointment in subquery(appointment_subq),
+        on: appointment.bison_id == b.id,
+        where: is_nil(appointment)
     )
   end
 
@@ -43,20 +44,21 @@ defmodule Prairie.Veterinary.BisonContext do
     start_range = six_months_ago()
     end_range = now()
 
-    appointment_subq = from(
-      appointment in Appointment,
-      group_by: [appointment.bison_id, appointment.id],
-      where: appointment.appointment_at >= ^start_range,
-      where: appointment.appointment_at <= ^end_range,
-      order_by: [desc: appointment.appointment_at]
-    )
+    appointment_subq =
+      from(
+        appointment in Appointment,
+        group_by: [appointment.bison_id, appointment.id],
+        where: appointment.appointment_at >= ^start_range,
+        where: appointment.appointment_at <= ^end_range,
+        order_by: [desc: appointment.appointment_at]
+      )
 
     BisonRepo.all(
       from b in Bison,
-      left_join: appointment in subquery(appointment_subq),
-      on: appointment.bison_id == b.id,
-      where: is_nil(appointment),
-      where: b.prairie_id == ^prairie_id
+        left_join: appointment in subquery(appointment_subq),
+        on: appointment.bison_id == b.id,
+        where: is_nil(appointment),
+        where: b.prairie_id == ^prairie_id
     )
   end
 
@@ -64,21 +66,22 @@ defmodule Prairie.Veterinary.BisonContext do
     start_range = six_months_ago()
     end_range = now()
 
-    appointment_subq = from(
-      appointment in Appointment,
-      group_by: [appointment.bison_id, appointment.id],
-      where: appointment.appointment_at >= ^start_range,
-      where: appointment.appointment_at <= ^end_range,
-      order_by: [desc: appointment.appointment_at]
-    )
+    appointment_subq =
+      from(
+        appointment in Appointment,
+        group_by: [appointment.bison_id, appointment.id],
+        where: appointment.appointment_at >= ^start_range,
+        where: appointment.appointment_at <= ^end_range,
+        order_by: [desc: appointment.appointment_at]
+      )
 
     BisonRepo.all(
       from b in Bison,
-      left_join: appointment in subquery(appointment_subq),
-      on: appointment.bison_id == b.id,
-      where: is_nil(appointment),
-      join: prairie in assoc(b, :prairie),
-      where: prairie.state_code == ^state_code
+        left_join: appointment in subquery(appointment_subq),
+        on: appointment.bison_id == b.id,
+        where: is_nil(appointment),
+        join: prairie in assoc(b, :prairie),
+        where: prairie.state_code == ^state_code
     )
   end
 

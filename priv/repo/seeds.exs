@@ -29,4 +29,3 @@ veterinary_staff_1 =
 
 veterinary_staff_2 =
   Repo.insert!(%VeterinaryStaffMember{name: "Victor Vaughn", prairie_id: prairie_2.id})
-

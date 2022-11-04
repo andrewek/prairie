@@ -55,7 +55,7 @@ defmodule Prairie.Bison.ContextTest do
 
     test "matches partial", %{brenda: %Bison{id: brenda_id}, biff: %Bison{id: biff_id}} do
       result = BisonContext.by_name("bison")
-      ids = Enum.map(result, fn(el) -> el.id end)
+      ids = Enum.map(result, fn el -> el.id end)
 
       assert brenda_id in ids
       assert biff_id in ids
@@ -72,7 +72,7 @@ defmodule Prairie.Bison.ContextTest do
 
       result_ids =
         BisonContext.by_state_code(prairie.state_code)
-        |> Enum.map(fn(el) -> el.id end)
+        |> Enum.map(fn el -> el.id end)
 
       assert bison.id in result_ids
       assert same_state_bison.id in result_ids

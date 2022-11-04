@@ -6,7 +6,9 @@ defmodule Prairie.Repo.Migrations.CreateVeterinaryAppointments do
       add :id, :binary_id, primary_key: true
       add :appointment_at, :utc_datetime
       add :bison_id, references(:bison, on_delete: :nothing, type: :binary_id)
-      add :staff_member_id, references(:veterinary_staff_members, on_delete: :nothing, type: :binary_id)
+
+      add :staff_member_id,
+          references(:veterinary_staff_members, on_delete: :nothing, type: :binary_id)
 
       timestamps()
     end

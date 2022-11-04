@@ -24,7 +24,7 @@ defmodule Prairie.Veterinary.BisonContextTest do
         :appointment,
         bison: bison,
         staff_member: staff_member,
-        appointment_at: time_ago([months: -7])
+        appointment_at: time_ago(months: -7)
       )
 
       result = BisonContext.due_for_appointment()
@@ -37,14 +37,14 @@ defmodule Prairie.Veterinary.BisonContextTest do
         :appointment,
         bison: bison,
         staff_member: staff_member,
-        appointment_at: time_ago([minutes: -1])
+        appointment_at: time_ago(minutes: -1)
       )
 
       insert(
         :appointment,
         bison: bison,
         staff_member: staff_member,
-        appointment_at: time_ago([months: -7])
+        appointment_at: time_ago(months: -7)
       )
 
       # This shaggy buddy came in just now - no follow-up needed
@@ -68,12 +68,16 @@ defmodule Prairie.Veterinary.BisonContextTest do
       assert [^other_bison_id] = ids(result_2)
     end
 
-    test "when filtering by prairie, ignores bison with recent appt", %{bison: bison, staff_member: staff_member, prairie: prairie} do
+    test "when filtering by prairie, ignores bison with recent appt", %{
+      bison: bison,
+      staff_member: staff_member,
+      prairie: prairie
+    } do
       insert(
         :appointment,
         bison: bison,
         staff_member: staff_member,
-        appointment_at: time_ago([minutes: -1])
+        appointment_at: time_ago(minutes: -1)
       )
 
       result = BisonContext.due_for_appointment(prairie)
@@ -90,12 +94,11 @@ defmodule Prairie.Veterinary.BisonContextTest do
     end
   end
 
-
   #### Convenience Helpers ##############
 
   # Sometimes we just want some IDs.
   defp ids(collection) do
-    Enum.map(collection, fn(el) -> el.id end)
+    Enum.map(collection, fn el -> el.id end)
   end
 
   # Do we have the thing we want? One can only hope!
