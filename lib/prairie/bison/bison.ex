@@ -8,6 +8,9 @@ defmodule Prairie.Bison.Bison do
     field :age, :integer
     field :name, :string
 
+    field :last_appointment_at, :utc_datetime, virtual: true
+    field :next_appointment_at, :utc_datetime, virtual: true
+
     belongs_to :prairie, Prairie.LandManagement.Prairie
     has_many :appointments, Prairie.Veterinary.Appointment
 
