@@ -9,6 +9,7 @@ defmodule Prairie.Bison.Bison do
     field :name, :string
 
     belongs_to :prairie, Prairie.LandManagement.Prairie
+    has_many :appointments, Prairie.Veterinary.Appointment
 
     timestamps()
   end
