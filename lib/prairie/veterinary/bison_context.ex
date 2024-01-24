@@ -63,70 +63,81 @@ defmodule Prairie.Veterinary.BisonContext do
   prairie, or the list filtered by just one veterinarian.
   """
   def overdue_for_appointment() do
-    start_range = six_months_ago()
-    end_range = now()
-
-    appointment_subq =
-      from(
-        appointment in Appointment,
-        group_by: [appointment.bison_id, appointment.id],
-        where: appointment.appointment_at >= ^start_range,
-        where: appointment.appointment_at <= ^end_range,
-        order_by: [desc: appointment.appointment_at]
-      )
-
-    BisonRepo.all(
-      from b in Bison,
-        left_join: last_appointment in subquery(appointment_subq),
-        on: last_appointment.bison_id == b.id,
-        where: is_nil(last_appointment)
-    )
+    Bison
+    |> with_last_appointment()
+    |> by_nil_last_appointment()
+    |> BisonRepo.all()
   end
 
-  def overdue_for_appointment(%LMPrairie{id: prairie_id} = _prairie) do
-    start_range = six_months_ago()
-    end_range = now()
-
-    appointment_subq =
-      from(
-        appointment in Appointment,
-        group_by: [appointment.bison_id, appointment.id],
-        where: appointment.appointment_at >= ^start_range,
-        where: appointment.appointment_at <= ^end_range,
-        order_by: [desc: appointment.appointment_at]
-      )
-
-    BisonRepo.all(
-      from b in Bison,
-        left_join: last_appointment in subquery(appointment_subq),
-        on: last_appointment.bison_id == b.id,
-        where: is_nil(last_appointment),
-        where: b.prairie_id == ^prairie_id
-    )
+  def overdue_for_appointment(%LMPrairie{} = prairie) do
+    Bison
+    |> with_last_appointment()
+    |> by_nil_last_appointment()
+    |> in_prairie(prairie)
+    |> BisonRepo.all()
   end
 
   def overdue_for_appointment(state_code) when is_binary(state_code) do
-    start_range = six_months_ago()
-    end_range = now()
-
-    appointment_subq =
-      from(
-        appointment in Appointment,
-        group_by: [appointment.bison_id, appointment.id],
-        where: appointment.appointment_at >= ^start_range,
-        where: appointment.appointment_at <= ^end_range,
-        order_by: [desc: appointment.appointment_at]
-      )
-
-    BisonRepo.all(
-      from b in Bison,
-        left_join: last_appointment in subquery(appointment_subq),
-        on: last_appointment.bison_id == b.id,
-        where: is_nil(last_appointment),
-        join: prairie in assoc(b, :prairie),
-        where: prairie.state_code == ^state_code
-    )
+    base_query()
+    |> with_last_appointment()
+    |> by_nil_last_appointment()
+    |> with_prairie()
+    |> by_state_code(state_code)
+    |> BisonRepo.all()
   end
+
+  def base_query() do
+    from bison in Bison,
+      where: is_nil(bison.deleted_at),
+      preload: [:appointments, :veterinarian]
+  end
+
+  def with_prairie(queryable \\ base_query()) do
+    if has_named_binding?(queryable, :prairie) do
+      queryable
+    else
+      from bison in queryable,
+      join: prairie in assoc(bison, :prairie), as: :prairie
+    end
+  end
+
+  def by_state_code(queryable, state_code) do
+    from [bison, prairie: prairie] in queryable,
+      where: prairie.state_code == ^state_code
+  end
+
+  def in_prairie(queryable, %LMPrairie{id: id}) do
+    from bison in queryable,
+      where: bison.prairie_id == ^id
+  end
+
+  def with_last_appointment(queryable) do
+    if has_named_binding?(queryable, :last_appointment) do
+      queryable
+    else
+      start_range = six_months_ago()
+      end_range = now()
+
+      appointment_subq =
+        from(
+          appointment in Appointment,
+          group_by: [appointment.bison_id, appointment.id],
+          where: appointment.appointment_at >= ^start_range,
+          where: appointment.appointment_at <= ^end_range,
+          order_by: [desc: appointment.appointment_at]
+        )
+
+      from b in queryable,
+        left_join: last_appointment in subquery(appointment_subq), as: :last_appointment,
+        on: last_appointment.bison_id == b.id
+    end
+  end
+
+  def by_nil_last_appointment(query) do
+    from [bison, last_appointment: last_appointment] in query,
+      where: is_nil(last_appointment)
+  end
+
 
   ###########################################
 

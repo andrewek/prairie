@@ -13,22 +13,6 @@ defmodule Prairie.Veterinary.BisonQueries do
     from(bison in Bison)
   end
 
-  def by_age_at_least(queryable, age) do
-    from bison in queryable,
-      where: bison.age >= ^age
-  end
-
-  def by_age_at_most(queryable, age) do
-    from bison in queryable,
-      where: bison.age <= ^age
-  end
-
-  def by_age_between(queryable, min_age, max_age) do
-    queryable
-    |> by_age_at_least(min_age)
-    |> by_age_at_most(max_age)
-  end
-
   ####### Time Helpers ##############
 
   defp now() do
